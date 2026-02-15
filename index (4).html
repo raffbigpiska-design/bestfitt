@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreetStyle — Premium Shop</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #111111;
+            --accent: #ff4757;
+            --tg: #0088cc;
+            --text: #ffffff;
+            --text-dim: #666;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header { text-align: center; margin-bottom: 50px; }
+        header h1 { font-size: clamp(2.5rem, 10vw, 5rem); text-transform: uppercase; margin: 0; letter-spacing: -4px; font-weight: 900; }
+        header p { color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem; }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .product {
+            background: var(--card);
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid #1a1a1a;
+            padding-bottom: 30px;
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            text-align: center;
+        }
+
+        .product:hover { border-color: var(--accent); transform: translateY(-10px); }
+        
+        .img-container {
+            width: 100%;
+            height: 450px;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .product img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
+            display: block;
+        }
+        
+        .product h2 { margin: 20px 0 10px; font-size: 1.6rem; letter-spacing: -1px; }
+        .price { font-size: 1.8rem; font-weight: 900; color: var(--accent); margin-bottom: 20px; }
+
+        .size-box { margin-bottom: 25px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+        .size-box select {
+            background: #000;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 8px 15px;
+            border-radius: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .buy-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .cart {
+            margin: 60px 0;
+            width: 100%;
+            max-width: 550px;
+            background: #000;
+            padding: 30px;
+            border-radius: 35px;
+            border: 1px solid #222;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #111;
+        }
+
+        .btn-order { width: 100%; background-color: var(--tg); margin-top: 25px; font-size: 1.1rem; }
+        
+        footer { padding: 40px; text-align: center; color: #333; font-size: 0.8rem; letter-spacing: 2px; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>StreetStyle</h1>
+    <p>Premium Wear For G's ☠</p>
+</header>
+
+<section class="products">
+    <div class="product">
+        <div class="img-container">
+            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600" alt="White Hoodie">
+        </div>
+        <h2>Біла кофта</h2>
+        <p class="price">500 грн</p>
+        <div class="size-box">
+            Size: <select id="s1"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
+        </div>
+        <button class="buy-btn" onclick="addToCart('Біла кофта', 500, 's1')">В кошик</button>
+    </div>
+
+    <div class="product">
+        <div class="img-container">
+            <img src="image_e86bd8.png" alt="Black Sweatshirt">
+        </div>
+        <h2>Чорна кофта</h2>
+        <p class="price">550 грн</p>
+        <div class="size-box">
+            Size: <select id="s2"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
+        </div>
+        <button class="buy-btn" onclick="addToCart('Чорна кофта', 550, 's2')">В кошик</button>
+    </div>
+
+    <div class="product">
+        <div class="img-container">
+            <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600" alt="Oversize">
+        </div>
+        <h2>Oversize худі</h2>
+        <p class="price">700 грн</p>
+        <div class="size-box">
+            Size: <select id="s3"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
+        </div>
+        <button class="buy-btn" onclick="addToCart('Oversize худі', 700, 's3')">В кошик</button>
+    </div>
+</section>
+
+<section class="cart">
+    <h2 style="margin: 0 0 20px 0; text-transform: uppercase;">🛒 Твій Order</h2>
+    <div id="cart-list">
+        <p style="color: #333; text-align: center;">Кошик порожній...</p>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 1.5rem; font-weight: 900;">
+        <span>TOTAL:</span>
+        <span><span id="total-price">0</span> грн</span>
+    </div>
+    <button class="buy-btn btn-order" onclick="sendOrder()">🚀 ЗАМОВИТИ (TELEGRAM)</button>
+</section>
+
+<footer>
+    Designed for <a href="https://t.me/SPERMA228814888" target="_blank">@SPERMA228814888</a>
+</footer>
+
+<script>
+    let cart = [];
+
+    function addToCart(name, price, sId) {
+        const size = document.getElementById(sId).value;
+        cart.push({ name, price, size });
+        render();
+    }
+
+    function remove(i) {
+        cart.splice(i, 1);
+        render();
+    }
+
+    function render() {
+        const list = document.getElementById('cart-list');
+        const total = document.getElementById('total-price');
+        list.innerHTML = '';
+        let sum = 0;
+
+        if(cart.length === 0) {
+            list.innerHTML = '<p style="color: #333; text-align: center;">Кошик порожній...</p>';
+        }
+
+        cart.forEach((item, i) => {
+            sum += item.price;
+            list.innerHTML += `
+                <div class="cart-item">
+                    <span><b>${item.name}</b> [${item.size}]</span>
+                    <span>${item.price} грн <button onclick="remove(${i})" style="background:none; border:none; color:var(--accent); cursor:pointer; margin-left:15px;">✕</button></span>
+                </div>`;
+        });
+        total.innerText = sum;
+    }
+
+    function sendOrder() {
+        if(cart.length === 0) return alert("Додай товар!");
+        let msg = "👽 НОВЕ ЗАМОВЛЕННЯ:\n\n";
+        cart.forEach((item, i) => msg += `${i+1}. ${item.name} | Size: ${item.size} | ${item.price} грн\n`);
+        msg += `\n💰 РАЗОМ: ${document.getElementById('total-price').innerText} грн`;
+        window.open(`https://t.me/SPERMA228814888?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
